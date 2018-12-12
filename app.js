@@ -1,6 +1,7 @@
 const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
-const missed = 0;
+const scoreboard = document.getElementById('scoreboard');
+let missed = 0;
 
 const startButton = document.getElementsByClassName('btn__reset')[0];
 startButton.addEventListener('click', () => {
@@ -49,14 +50,25 @@ function checkLetter(button) {
       matchingLetter = button.textContent;
     }
   }
-  console.log(matchingLetter);
-  return matchingLetter;
+  if (matchingLetter) {
+    return matchingLetter;
+  } else {
+    return null;
+  }
 }
 
 qwerty.addEventListener('click', (e) => {
+  let letterFound;
   if (e.target.tagName === 'BUTTON') {
     e.target.className = 'chosen';
     e.target.disabled = 'true';
-    let letterFound = checkLetter(e.target);
+    letterFound = checkLetter(e.target);
+    console.log(letterFound);
+  }
+  if (letterFound === null) {
+    missed += 1;
+    const ol = scoreboard.querySelector('ol');
+    const li = ol.querySelector('li');
+    ol.removeChild(li);
   }
 });
